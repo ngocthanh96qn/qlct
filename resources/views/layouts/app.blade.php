@@ -24,6 +24,8 @@
     <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
 
+    {{-- css --}}
+     <link rel="stylesheet" href={{ asset("css/style.css") }}>
     @yield('css')
 </head>
 
@@ -96,10 +98,10 @@
             @yield('content')
         </div>
 
-        <!-- Main Footer -->
+        {{-- <!-- Main Footer -->
         <footer class="main-footer" style="max-height: 100px;text-align: center">
             <strong>Copyright © 2020 <a href="#">Company</a>.</strong> All rights reserved.
-        </footer>
+        </footer> --}}
 
     </div>
 @else

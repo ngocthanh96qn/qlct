@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ConfigSystem;
+use App\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
@@ -23,7 +24,7 @@ class ConfigSystemController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function getPage()
+    public function getPageIa()
     {
         $info = ConfigSystem::all()->first();
         $response = Http::get('https://graph.facebook.com/'.$info->id_user.'/accounts?access_token='.$info->token);
@@ -39,6 +40,21 @@ class ConfigSystemController extends Controller
        return view('pages.setup_ia',['errorToken'=>$errorToken,'pages'=>$pages]);
     }
 
+    public function getPage()
+    {
+        $info = ConfigSystem::all()->first();
+        $response = Http::get('https://graph.facebook.com/'.$info->id_user.'/accounts?access_token='.$info->token);
+        if(isset($response->json()['error']))
+        {
+            $errorToken = 'true';
+        }
+        else {
+            $pages = $response->json()['data'];
+            $errorToken = 'false';
+        }
+        // dd($pages);
+       return view('pages.setup_page',['errorToken'=>$errorToken,'pages'=>$pages]);
+    }
     /**
      * Store a newly created resource in storage.
      *
@@ -62,6 +78,16 @@ class ConfigSystemController extends Controller
     }
     public function storeIa(Request $request) {
         dd($request->toArray());
+    }
+
+    public function storePage(Request $request) {
+        foreach ($request->data as $key => $value) {
+           $data[]=['name'=>$key, 'id_page'=>$value];
+        }
+        Page::truncate();
+        Page::insert($data);
+        return redirect()->back();
+        
     }
     /**
      * Display the specified resource.
