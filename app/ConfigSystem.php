@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class ConfigSystem extends Model
 {
     protected $fillable = [
-        'token', 'app_id', 'app_secret','id_user'
+        'user_id','name_FB','token', 'app_id', 'app_secret','id_userFB'
     ];
 }

@@ -6,7 +6,7 @@ use App\ConfigSystem;
 use App\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
-
+use Auth;
 class ConfigSystemController extends Controller
 {
     /**
@@ -27,7 +27,7 @@ class ConfigSystemController extends Controller
     public function getPageIa()
     {
         $info = ConfigSystem::all()->first();
-        $response = Http::get('https://graph.facebook.com/'.$info->id_user.'/accounts?access_token='.$info->token);
+        $response = Http::get('https://graph.facebook.com/'.$info->id_userFB.'/accounts?access_token='.$info->token);
         if(isset($response->json()['error']))
         {
             $errorToken = 'true';
@@ -63,13 +63,12 @@ class ConfigSystemController extends Controller
      */
     public function storeToken(Request $request)
     {
-        
         $app_id = '710721769520597';
         $app_secret = '490f939d0a0d39df163acededd229c4b';
-        $id_user= '1735273423287825';
+        $id_userFB= '1735273423287825';
         // $response = 
         //  Http::get('https://graph.facebook.com/v8.0/oauth/access_token?grant_type=fb_exchange_token&client_id='.$app_id.'&client_secret='.$app_secret.'&fb_exchange_token='.$request->token_fb);
-        $data = ['token'=>'EAAKGZAc6bPdUBAMbanQGcPDWRV6mvEQ5RhxeoXqtglItvDHBkXbzIMkhr9kULpKT8frGcPACEQbZANCvCNHQeqdskO3yLNemZAzsZCv42ZBRXTVMIBCrC52HsOljV8LvXr7athFzmLS1kzRLTKGCU88PbhzPDYLV4tN888lRuxQZDZD','id_user'=>$id_user,'app_id'=>$app_id,'app_secret'=>$app_secret];
+        $data = ['user_id'=>Auth::user()->id,'token'=>'EAAKGZAc6bPdUBAMbanQGcPDWRV6mvEQ5RhxeoXqtglItvDHBkXbzIMkhr9kULpKT8frGcPACEQbZANCvCNHQeqdskO3yLNemZAzsZCv42ZBRXTVMIBCrC52HsOljV8LvXr7athFzmLS1kzRLTKGCU88PbhzPDYLV4tN888lRuxQZDZD','id_userFB'=>$id_userFB,'app_id'=>$app_id,'app_secret'=>$app_secret];
         ConfigSystem::truncate();
         ConfigSystem::create($data);
 

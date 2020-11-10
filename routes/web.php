@@ -40,7 +40,7 @@ Route::post('setup/token', 'ConfigSystemController@storeToken')->name('set_token
 Route::post('setup/ia', 'ConfigSystemController@storeIa')->name('set_ia');	
 Route::post('setup/page', 'ConfigSystemController@storePage')->name('set_page');
 
-////các route menu đăng bài post lên
+////các route menu đăng bài post 
 Route::post('post/Article','PostArticle@handleData')->name('handleData');	
 
 
