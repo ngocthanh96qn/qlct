@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
 @section('css')
-  {{-- chen css --}}
+
 @endsection
 
 
@@ -25,18 +25,30 @@
                     <form role="form" action="{{ route('set_page') }}" method="POST">
                   <!-- text input -->
                   @csrf
-                  @foreach ($pages as $page)
-                  <div class="form-group">
-                    <div class="checkbox">
-                      <label>
-                        <input type="checkbox" name="data[{{$page['name']}}]" value="{{$page['id']}}">
-                        {{$page['name']}}
-                      </label>
-                    </div>
-                  </div>
-                  @endforeach               
-                 
-                     
+
+                      <table class="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">Tên Trang</th>
+                          <th scope="col">Tài khoản</th>
+                          
+                        </tr>
+                      </thead>
+                      <tbody>
+                         @foreach ($pages as $page)
+                        <tr>
+                          <td> 
+                            <div class="checkbox">
+                              <label><input type="checkbox" name="data[{{$page['name']}}]" value="{{$page['id']}}"> {{$page['name']}}</label>
+                            </div>
+                          </td>
+                          <td>{{$page['account']}}</td>
+                        </tr>
+                        @endforeach 
+                      </tbody>
+                    </table>
+
+                
                   <div class="box-footer text-center">
                   <button type="submit" class="btn btn-primary">Cài đặt trang </button>
                 </div>           
@@ -68,5 +80,5 @@
 
 
 @push('scripts')
-        {{-- chèn script --}}
+       
 @endpush

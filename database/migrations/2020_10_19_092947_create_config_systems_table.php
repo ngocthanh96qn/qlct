@@ -17,10 +17,10 @@ class CreateConfigSystemsTable extends Migration
             $table->id();
             $table->string('user_id');
             $table->string('name_FB');
+            $table->string('id_userFB');
             $table->string('token');
             $table->string('app_id');
             $table->string('app_secret');
-            $table->string('id_userFB');
             $table->timestamps();
         });
     }

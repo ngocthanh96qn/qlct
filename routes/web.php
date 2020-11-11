@@ -28,8 +28,7 @@ Route::get('/home', 'HomeController@index')->middleware('verified')->name('home'
 
 Route::group(['prefix' => 'menu','as'=>'menu.'],function (){  //các route về menu
 	//menu setup
-	Route::get('setup/token', function () {
-    return view('pages.setup_token');})->name('setup_token');
+	Route::get('setup/token', 'ConfigSystemController@getToken')->name('setup_token');
     Route::get('setup/ia', 'ConfigSystemController@getPageIa')->name('setup_ia');	
     Route::get('setup/page', 'ConfigSystemController@getPage')->name('setup_page');	
     //menu dăng bài
