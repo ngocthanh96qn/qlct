@@ -40,7 +40,8 @@ Route::post('setup/ia', 'ConfigSystemController@storeIa')->name('set_ia');
 Route::post('setup/page', 'ConfigSystemController@storePage')->name('set_page');
 
 ////các route menu đăng bài post 
-Route::post('post/Article','PostArticle@handleData')->name('handleData');	
+Route::post('post/Article','PostArticle@PostToPage')->name('PostToPage');	
+Route::get('delete/Article/{id}','PostArticle@DeletePost')->name('DeletePost');	
 
 
 

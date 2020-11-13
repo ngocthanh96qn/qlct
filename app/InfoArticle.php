@@ -4,9 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Page extends Model
+class InfoArticle extends Model
 {
     protected $fillable = [
-    	'user_id','name','id_page', 'account'
+    	'user_id','caption','name_page','account', 'link'
 		];
 }

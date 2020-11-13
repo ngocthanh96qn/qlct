@@ -7,6 +7,7 @@ use App\Page;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Auth;
+use DB;
 class ConfigSystemController extends Controller
 {
     /**
@@ -103,12 +104,28 @@ class ConfigSystemController extends Controller
     }
 
     public function storePage(Request $request) {
+       
         foreach ($request->data as $key => $value) {
-           $data[]=['name'=>$key, 'id_page'=>$value];
+
+           $array=explode(',', $value);
+           $array[] = Auth::user()->id;
+           $datas[] = $array;
+
         }
-        Page::truncate();
-        Page::insert($data);
-        return redirect()->back();
+        DB::table('pages')->where('user_id', '=', Auth::user()->id)->delete();
+        foreach ($datas as $data) {
+
+            $value = ['user_id'=>$data[3],'name'=>$data[0],'id_page'=>$data[1],'account'=>$data[2]];
+
+            try {
+            Page::create($value);
+            } catch (ModelNotFoundException $exception) {
+                return redirect()->back()->with('status','Thêm dữ liệu vào database bị lỗi');
+            }
+
+            
+        }
+        return redirect()->back()->with('status','Cài đặt trang thành công');
         
     }
     /**

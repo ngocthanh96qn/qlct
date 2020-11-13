@@ -39,7 +39,7 @@
                         <tr>
                           <td> 
                             <div class="checkbox">
-                              <label><input type="checkbox" name="data[{{$page['name']}}]" value="{{$page['id']}}"> {{$page['name']}}</label>
+                              <label><input type="checkbox" name="data[]" value="{{$page['name']}},{{$page['id']}},{{$page['account']}}"> {{$page['name']}}</label>
                             </div>
                           </td>
                           <td>{{$page['account']}}</td>
@@ -53,17 +53,11 @@
                   <button type="submit" class="btn btn-primary">Cài đặt trang </button>
                 </div>           
                 </form>
-                    @if (isset($status)&&$status == 'success')
+                    @if (session()->has('status'))
                       <div class="alert alert-success alert-dismissible">
                           <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                          <h4><i class="icon fa fa-check"></i> Thành công!</h4>
-                          Cài đặt IA thành công
-                      </div>
-                    @elseif (isset($status)&&$status == 'failed')
-                      <div class="alert alert-danger alert-dismissible">
-                          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                          <h4><i class="icon fa fa-ban"></i> Thất bại!</h4>
-                          Cài đặt IA thất bại, vui lòng thử lại
+                          <h4><i class="icon fa fa-check"></i> Kết Quả!</h4>
+                          {{ session()->get('status') }}
                       </div>
                     @endif
             @endif
