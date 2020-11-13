@@ -27,7 +27,7 @@ class ConfigSystemController extends Controller
     public function getPageIa()
     {
         $info = ConfigSystem::all()->first();
-        $response = Http::get('https://graph.facebook.com/'.$info->id_user.'/accounts?access_token='.$info->token);
+        $response = Http::get('https://graph.facebook.com/'.$info->id_userFB.'/accounts?access_token='.$info->token);
         if(isset($response->json()['error']))
         {
             $errorToken = 'true';
