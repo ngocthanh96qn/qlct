@@ -4,27 +4,41 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
+use App\Http\Requests\PostToPage;
 use App\ConfigSystem;
+use App\InfoArticle;
 use App\Page;
+use Auth;
 class PostArticle extends Controller
 {
     public function createPost(){
-      $pages = Page::all();
-    	return view('pages.createPost',['pages'=>$pages]);
+      $pages = Page::where('user_id','=',Auth::user()->id)->get();
+      $InfoArticles = InfoArticle::where('user_id','=',Auth::user()->id)->orderBy('created_at', 'asc')->get();
+    	return view('pages.createPost',['pages'=>$pages,'infoArticles'=>$InfoArticles]);
     }
     
-    public function handleData(Request $request){
-      dd($request->toArray());
-    		$access_token = 'EAAKGZAc6bPdUBAMbanQGcPDWRV6mvEQ5RhxeoXqtglItvDHBkXbzIMkhr9kULpKT8frGcPACEQbZANCvCNHQeqdskO3yLNemZAzsZCv42ZBRXTVMIBCrC52HsOljV8LvXr7athFzmLS1kzRLTKGCU88PbhzPDYLV4tN888lRuxQZDZD';
-    	$id_page = '104219037586480'; //ô tô fun
-    	$response = Http::get('https://graph.facebook.com/'.$id_page.'?fields=access_token&access_token='.$access_token);
+    public function PostToPage(PostToPage $request){
+      foreach ($request->pages as $id_page => $name_account) {
+       $account = ConfigSystem::where('name_FB','=',$name_account)->where('user_id','=',Auth::user()->id)->get();
+       $access_token = $account[0]->token;
+      $response = Http::get('https://graph.facebook.com/'.$id_page.'?fields=access_token&access_token='.$access_token);
          $token_page = $response->json()['access_token'];
-          // dd($token_page);
+
          $response = Http::post('https://graph.facebook.com/'.$id_page.'/feed/', [
-            'message' => 'test Link',
+            'message' => $request->caption,
             'access_token' => $token_page,
             'link'=> $request->link,
         ]);
-          dd($response->json());
+         $page = Page::where('id_page','=',$id_page)->get();
+
+         $data=['user_id'=>Auth::user()->id,'caption'=>$request->caption,'name_page'=>$page[0]->name,'account'=>$name_account ,'link'=>'https://facebook.com/'.$response->json()['id']];
+         InfoArticle::create($data);
+      }
+      return redirect()->back()->with('status','Đăng thành công!');        
     }
+
+    public function DeletePost($id){
+      dd($id);
+    }
+
 }

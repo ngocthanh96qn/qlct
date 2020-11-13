@@ -28,8 +28,7 @@ Route::get('/home', 'HomeController@index')->middleware('verified')->name('home'
 
 Route::group(['prefix' => 'menu','as'=>'menu.'],function (){  //các route về menu
 	//menu setup
-	Route::get('setup/token', function () {
-    return view('pages.setup_token');})->name('setup_token');
+	Route::get('setup/token', 'ConfigSystemController@getToken')->name('setup_token');
     Route::get('setup/ia', 'ConfigSystemController@getPageIa')->name('setup_ia');	
     Route::get('setup/page', 'ConfigSystemController@getPage')->name('setup_page');	
     //menu dăng bài
@@ -41,7 +40,10 @@ Route::post('setup/ia', 'ConfigSystemController@storeIa')->name('set_ia');
 Route::post('setup/page', 'ConfigSystemController@storePage')->name('set_page');
 
 ////các route menu đăng bài post 
-Route::post('post/Article','PostArticle@handleData')->name('handleData');	
+
+Route::post('post/Article','PostArticle@PostToPage')->name('PostToPage');	
+Route::get('delete/Article/{id}','PostArticle@DeletePost')->name('DeletePost');	
+
 
 
 
