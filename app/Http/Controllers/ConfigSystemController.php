@@ -47,31 +47,40 @@ class ConfigSystemController extends Controller
        return view('pages.setup_ia',['errorToken'=>$errorToken,'pages'=>$pages]);
     }
 
-    public function getPage() //lấy page, ở menu chọn page làm việc
-    {
+     public function getPage() //lấy page, ở menu chọn page làm việc
+     {
         $listToken = ConfigSystem::where('user_id','=',Auth::user()->id)->get();
-        // dd($listToken);
+        //  dd($listToken);
         foreach ($listToken as $key => $token) {
-               $response = Http::get('https://graph.facebook.com/'.$token->id_userFB.'/accounts?access_token='.$token->token);
-            if(isset($response->json()['error']))
-            {
-                $errorToken = 'true';
-                return view('pages.setup_page',['errorToken'=>$errorToken]);
-            }
-            else {
-                foreach ($response->json()['data'] as $key => $page) {
-                    $page['account'] =  $token->name_FB;
-                    $pages[] = $page;
-                }
-               
-                $errorToken = 'false';
-            }
+         $response = Http::get('https://graph.facebook.com/'.$token->id_userFB.'/accounts?access_token='.$token->token);
+         if(isset($response->json()['error']))
+         {
+            $status = 'Lỗi Token hoặc Token hết hạn';
+            return view('pages.setup_page',['status'=>$status]);
         }
-        
-        // dd($pages);
-        return view('pages.setup_page',['errorToken'=>$errorToken,'pages'=>$pages]);
-       
+        else {
+            if (empty($response->json()['data'])) {
+                $pages =[];
+                $status = 'Nick này không sở hữu trang, hoặc không được cấp quyền';
+                return view('pages.setup_page',['status'=>$status,'pages'=>$pages]);
+            } 
+            foreach ($response->json()['data'] as $key => $page) {
+                $page['account'] =  $token->name_FB;
+                $pages[] = $page;
+            }
+            
+            $status = '';
+        }
     }
+    
+    if ($listToken->isEmpty()) {
+      $status = 'Chưa thêm tài khoản Facebook vào hệ thống';
+      $pages =[];
+  } 
+  
+  return view('pages.setup_page',['status'=>$status,'pages'=>$pages]);
+  
+}
     /**
      * Store a newly created resource in storage.
      *
@@ -81,9 +90,13 @@ class ConfigSystemController extends Controller
     public function storeToken(Request $request)
     {
        
-
-        $app_id = '710721769520597';
-        $app_secret = '490f939d0a0d39df163acededd229c4b';
+    	//akz
+        // $app_id = '710721769520597';
+        // $app_secret = '490f939d0a0d39df163acededd229c4b';
+        //MediaNet
+        $app_id =  '702506653702458';
+        $app_secret = '3ea2793125850a715d59ac15436bc210';
+        
         
         $response = 
          Http::get('https://graph.facebook.com/v8.0/oauth/access_token?grant_type=fb_exchange_token&client_id='.$app_id.'&client_secret='.$app_secret.'&fb_exchange_token='.$request->tokenFB);
@@ -113,6 +126,7 @@ class ConfigSystemController extends Controller
 
         }
         DB::table('pages')->where('user_id', '=', Auth::user()->id)->delete();
+
         foreach ($datas as $data) {
 
             $value = ['user_id'=>$data[3],'name'=>$data[0],'id_page'=>$data[1],'account'=>$data[2]];
@@ -120,12 +134,13 @@ class ConfigSystemController extends Controller
             try {
             Page::create($value);
             } catch (ModelNotFoundException $exception) {
-                return redirect()->back()->with('status','Thêm dữ liệu vào database bị lỗi');
-            }
-
-            
+                $statuss = ['kq'=>'failed','text'=>'Lỗi chọn trang! Thử lại'];
+        return redirect()->back()->with(['statuss'=>$statuss]); 
+            }   
         }
-        return redirect()->back()->with('status','Cài đặt trang thành công');
+
+         $statuss = ['kq'=>'success','text'=>'Chọn trang làm việc thành công!'];
+        return redirect()->back()->with(['statuss'=>$statuss]); 
         
     }
     /**

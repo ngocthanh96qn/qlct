@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect()->route('home');
 });
 
 
@@ -34,7 +34,7 @@ Route::group(['prefix' => 'menu','as'=>'menu.'],function (){  //các route về 
     //menu dăng bài
     Route::get('post/Article', 'PostArticle@createPost')->name('postArticle');	
 });
-//các route menu cấu hình post lên
+//các route menu cấu hình 
 Route::post('setup/token', 'ConfigSystemController@storeToken')->name('set_token');	
 Route::post('setup/ia', 'ConfigSystemController@storeIa')->name('set_ia');	
 Route::post('setup/page', 'ConfigSystemController@storePage')->name('set_page');

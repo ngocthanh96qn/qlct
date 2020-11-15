@@ -13,6 +13,33 @@
 
 @section('content')
 <div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+     @if (session()->has('status'))
+      @php
+         $status = Session::get('status');
+      @endphp 
+      @if ($status['kq']=='success')
+      <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+        <h4><i class="icon fa fa-check"></i> Kết Quả!</h4>
+        {{$status['text']}}   
+      </div>
+      @endif
+    
+    @if ($status['kq']=='failed')
+     <div class="alert alert-danger alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+      <h4><i class="icon fa fa-ban"></i> Thất Bại!</h4>
+      {{$status['text']}} 
+    </div>
+    @endif
+
+    
+
+    @endif
+  </div>
+</div>
     <div class="row" >
            <div class="col-md-6" style="margin-top:30px">
           <!-- general form elements disabled -->
@@ -28,11 +55,11 @@
                 @csrf   
                 <div class="form-group has-success">
                   <label class="control-label" for="inputSuccess"><i class="fa fa-file-text-o"></i> Caption </label>
-                  <input type="text" class="form-control" id="inputSuccess" placeholder="Bạn đang nghĩ gì? ..." name="caption">
+                  <input type="text" class="form-control" id="inputSuccess" placeholder="Bạn đang nghĩ gì? ..." name="caption" value="{{old('caption')}}">
                 </div>            
                 <div class="form-group has-success">
                   <label class="control-label" for="inputSuccess"><i class="fa fa-link"></i> Nhập Link </label>
-                  <input type="text" class="form-control" id="inputSuccess" placeholder="Link ..." name="link">
+                  <input type="text" class="form-control" id="inputSuccess" placeholder="Link ..." name="link" value="{{old('link')}}" >
                   @if($errors->has('link'))
                   <p style="color:red">{{$errors->first('link')}}</p>
                   @endif
@@ -62,35 +89,24 @@
                   <button type="submit" class="btn btn-primary"> Đăng </button>
                 </div>           
               </form>
-
-              
-                @if (session()->has('status'))
-                      <div class="alert alert-success alert-dismissible">
-                          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                          <h4><i class="icon fa fa-check"></i> Kết Quả!</h4>
-                          {{ session()->get('status') }}
-                      </div>
-                @endif
-
-
-              
+   
             </div>
             <!-- /.box-body -->
           </div>
           <!-- /.box -->
         </div>  {{-- end col --}}
-         {{-- <div class="col-md-5" style="margin-top:30px">
+         <div class="col-md-5" style="margin-top:30px">
                     <div class="box box-warning">
             <div class="box-header with-border text-center">
               <h3 class="box-title ">Xem trước bài viết</h3>
             </div>
             <!-- /.box-header -->
-            <div class="box-body">
-               
+            <div class="box-body text-center" style="font-size: 20px">
+               coming soon!!!
             </div>
             <!-- /.box-body -->
           </div>
-        </div> --}}
+        </div>
     </div>      {{-- end row --}}
 
      <div class="row" style="margin-top:30px;"> {{-- Cột Bảng bài đã đăng --}}
@@ -117,14 +133,16 @@
                 </tr>
                 </thead>
                 <tbody>
+
                 @foreach ($infoArticles as $infoArticle)
-                  <tr>
-                  <td>{{$infoArticle->caption}}</td>
+                <tr>
+                  <td> <p style="width: 200px;overflow: hidden;white-space: nowrap; text-overflow: ellipsis;">{{$infoArticle->caption}}</p></td>
                   <td>{{$infoArticle->name_page}}</td>
                   <td>{{$infoArticle->account}}</td>
-                  <td> <a href="{{$infoArticle->link}}">Xem</a></td>
+                  <td> <a href="https://facebook.com/{{$infoArticle->link}}" target="_blank">Xem</a></td>
                   <td>{{$infoArticle->created_at}}</td>
-                  <td><a href="{{ route('DeletePost',$infoArticle->id) }}">Delete</a></td>
+                  <td><span class="label label-danger"><a href="{{ route('DeletePost',$infoArticle->id) }}" style="color:white;">Delete</a></span></td>
+
                 </tr>
                 @endforeach
                 

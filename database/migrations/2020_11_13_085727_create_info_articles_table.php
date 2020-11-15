@@ -18,6 +18,7 @@ class CreateInfoArticlesTable extends Migration
             $table->string('user_id');
             $table->string('caption');
             $table->string('name_page');
+            $table->string('id_page');
             $table->string('account');
             $table->string('link');
             $table->timestamps();
