@@ -13,7 +13,7 @@ class PostArticle extends Controller
 {
     public function createPost(){
       $pages = Page::where('user_id','=',Auth::user()->id)->get();
-      $InfoArticles = InfoArticle::where('user_id','=',Auth::user()->id)->orderBy('created_at', 'asc')->get();
+      $InfoArticles = InfoArticle::where('user_id','=',Auth::user()->id)->orderBy('created_at', 'desc')->get();
     	return view('pages.createPost',['pages'=>$pages,'infoArticles'=>$InfoArticles]);
     }
     
@@ -31,16 +31,34 @@ class PostArticle extends Controller
         ]);
          $page = Page::where('id_page','=',$id_page)->get();
 
-         $data=['user_id'=>Auth::user()->id,'caption'=>$request->caption,'name_page'=>$page[0]->name,'account'=>$name_account ,'link'=>'https://facebook.com/'.$response->json()['id']];
+         $data=['user_id'=>Auth::user()->id,'caption'=>$request->caption,'name_page'=>$page[0]->name,'id_page'=>$id_page,'account'=>$name_account ,'link'=>$response->json()['id']];
          InfoArticle::create($data);
       }
-      return redirect()->back()->with('status','Đăng thành công!');        
+      $status = ['kq'=>'success','text'=>'Đăng thành công!'];
+      return redirect()->back()->with(['status'=>$status]);    
     }
 
     public function DeletePost($id){
       $infoDelete = InfoArticle::find($id);
-      $infoDelete->delete();
-       return redirect()->back()->with('status','Xóa thành công!');
-    }
+
+
+      $account = ConfigSystem::where('name_FB','=',$infoDelete->account)->where('user_id','=',Auth::user()->id)->get();
+      $access_token = $account[0]->token;
+
+      $response = Http::get('https://graph.facebook.com/'.$infoDelete->id_page.'?fields=access_token&access_token='.$access_token);
+      $token_page = $response->json()['access_token'];
+      $response = Http::delete('https://graph.facebook.com/'.$infoDelete->link.'?access_token='.$token_page);
+      if(isset($response->json()['success'])){
+        $infoDelete->delete();
+        $status = ['kq'=>'success','text'=>'Xóa thành công!'];
+        return redirect()->back()->with(['status'=>$status]);  
+      }
+      else {
+       $infoDelete->delete();
+       $status = ['kq'=>'failed','text'=>'Xóa Thất bại, bài viết không tồn tại!'];
+       return redirect()->back()->with(['status'=>$status]); 
+     }
+
+   }
 
 }

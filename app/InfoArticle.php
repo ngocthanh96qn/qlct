@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class InfoArticle extends Model
 {
     protected $fillable = [
-    	'user_id','caption','name_page','account', 'link'
+    	'user_id','caption','name_page','id_page','account', 'link'
 		];
 }

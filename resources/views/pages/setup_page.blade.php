@@ -7,6 +7,33 @@
 
 @section('content')
 <div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+     @if (session()->has('statuss'))
+      @php
+         $statuss = Session::get('statuss');
+      @endphp 
+      @if ($statuss['kq']=='success')
+      <div class="alert alert-success alert-dismissible">
+        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+        <h4><i class="icon fa fa-check"></i> Kết Quả!</h4>
+        {{$statuss['text']}}   
+      </div>
+      @endif
+    
+    @if ($statuss['kq']=='failed')
+     <div class="alert alert-danger alert-dismissible">
+      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
+      <h4><i class="icon fa fa-ban"></i> Thất Bại!</h4>
+      {{$statuss['text']}} 
+    </div>
+    @endif
+
+    
+
+    @endif
+  </div>
+</div>
     <div class="row">
            <div class="col-md-6 col-md-offset-3" style="margin-top:30px">
           <!-- general form elements disabled -->
@@ -15,11 +42,11 @@
               <h3 class="box-title ">Chọn trang làm việc</h3>
             </div>
              <div class="box-body">
-             @if (isset($errorToken)&&$errorToken=='true')
+             @if (isset($status)&&$status!=='')
                  <div class="alert alert-danger alert-dismissible">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                     <h4><i class="icon fa fa-ban"></i> Lỗi!</h4>
-                    Kiểm tra lại token
+                    {{$status}}
                 </div>
             @else 
                     <form role="form" action="{{ route('set_page') }}" method="POST">
@@ -53,13 +80,7 @@
                   <button type="submit" class="btn btn-primary">Cài đặt trang </button>
                 </div>           
                 </form>
-                    @if (session()->has('status'))
-                      <div class="alert alert-success alert-dismissible">
-                          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                          <h4><i class="icon fa fa-check"></i> Kết Quả!</h4>
-                          {{ session()->get('status') }}
-                      </div>
-                    @endif
+                    
             @endif
            </div>
             <!-- /.box-body -->

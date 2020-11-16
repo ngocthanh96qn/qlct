@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>{{ config('app.name') }}</title>
+    <title>MediaNet</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
 
     <!-- Bootstrap 3.3.7 -->
@@ -13,7 +13,8 @@
     <link rel="stylesheet" href="../../admin-lte/bower_components/font-awesome/css/font-awesome.min.css">
 
     <!-- Theme style -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.3/css/AdminLTE.min.css">
+    <link rel="stylesheet" href="../../admin-lte/dist/css/AdminLTE.min.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/admin-lte/2.4.3/css/skins/_all-skins.min.css">
 
     <!-- iCheck -->
@@ -30,7 +31,7 @@
     @yield('css')
 </head>
 
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition skin-blue sidebar-mini" >
 @if (!Auth::guest())
     <div class="wrapper">
         <!-- Main Header -->
@@ -38,7 +39,7 @@
 
             <!-- Logo -->
             <a href="{{ route('home') }}" class="logo">
-                <b>Tool Media</b>
+                <b>MediaNet</b>
             </a>
 
             <!-- Header Navbar -->
@@ -55,7 +56,7 @@
                             <!-- Menu Toggle Button -->
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                                 <!-- The user image in the navbar-->
-                                <img src="http://infyom.com/images/logo/blue_logo_150x150.jpg"
+                                <img src="{{asset('image/avatar.jpg')}}"
                                      class="user-image" alt="User Image"/>
                                 <!-- hidden-xs hides the username on small devices so only the image appears. -->
                                 <span class="hidden-xs">{{ Auth::user()->name }}</span>
@@ -63,22 +64,22 @@
                             <ul class="dropdown-menu">
                                 <!-- The user image in the menu -->
                                 <li class="user-header">
-                                    <img src="http://infyom.com/images/logo/blue_logo_150x150.jpg"
+                                    <img src="{{asset('image/avatar.jpg')}}"
                                          class="img-circle" alt="User Image"/>
                                     <p>
                                         {{ Auth::user()->name }}
-                                        <small>Member since {{ Auth::user()->created_at->format('M. Y') }}</small>
+                                        <small>Thành viên ngày: {{ Auth::user()->created_at->format('M. Y') }}</small>
                                     </p>
                                 </li>
                                 <!-- Menu Footer-->
                                 <li class="user-footer">
                                     <div class="pull-left">
-                                        <a href="#" class="btn btn-default btn-flat">Profile</a>
+                                        <a href="#" class="btn btn-default btn-flat">Cá Nhân</a>
                                     </div>
                                     <div class="pull-right">
                                         <a href="{{ url('/logout') }}" class="btn btn-default btn-flat"
                                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                            Sign out
+                                            Đăng xuất
                                         </a>
                                         <form id="logout-form" action="{{ url('/logout') }}" method="POST" style="display: none;">
                                             @csrf
@@ -95,7 +96,7 @@
         <!-- Left side column. contains the logo and sidebar -->
         @include('layouts.sidebar')
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper">
+        <div class="content-wrapper" style="background-image: url('{{ asset('image/cover.jpg') }}');">
             @yield('content')
         </div>
 
@@ -141,8 +142,8 @@
         </div>
     </nav>
 
-    <div id="page-content-wrapper">
-        <div class="container-fluid">
+    <div id="page-content-wrapper" >
+        <div class="container-fluid" >
             <div class="row">
                 <div class="col-lg-12">
                     @yield('content')

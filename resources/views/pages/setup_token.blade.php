@@ -69,6 +69,8 @@
         </div>
     </div>
 
+ 
+
     <div class="row" style="margin-top:30px;">
       <div  class="col-md-6 col-md-offset-3">
         <script>
@@ -92,7 +94,7 @@
 
         window.fbAsyncInit = function() {
           FB.init({
-            appId      : '710721769520597',
+            appId      : '702506653702458',
             cookie     : true,                     // Enable cookies to allow the server to access the session.
             xfbml      : true,                     // Parse social plugins on this webpage.
             version    : 'v8.0'           // Use this Graph API version for this call.
@@ -107,6 +109,7 @@
         function testAPI() {                     
           console.log('Welcome!  Fetching your information.... ');
           FB.api('/me', function(response) {
+
             console.log(response);  
             document.getElementById('status').innerHTML =
             'Tài khoản đang đăng nhập ở trình duyệt: ' + response.name + '!';
@@ -117,9 +120,9 @@
       </script>
 <!-- The JS SDK Login Button -->
       <div class="text-center">
-          <fb:login-button scope="public_profile,email,pages_manage_posts,user_birthday,pages_show_list,pages_manage_engagement,pages_read_engagement,pages_read_user_content,pages_manage_instant_articles" onlogin="checkLoginState();">
+          <fb:login-button scope="public_profile,email,pages_manage_posts,pages_show_list,pages_manage_engagement,pages_read_engagement,pages_read_user_content,pages_manage_instant_articles" onlogin="checkLoginState();">
         </fb:login-button>
-        <div id="status">
+        <div id="status" style="color: #B40404; font-size: 20px">
         </div>
       </div>
         
@@ -166,6 +169,7 @@
         </div>
         <!-- /.col -->
     </div> {{--End Cột Bảng token --}}
+
     
 </div>
 
@@ -177,6 +181,7 @@
   
   <!-- Load the JS SDK asynchronously -->
 <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+
 
 <!-- DataTables -->
 <script src="../../admin-lte/bower_components/datatables.net/js/jquery.dataTables.min.js"></script>
