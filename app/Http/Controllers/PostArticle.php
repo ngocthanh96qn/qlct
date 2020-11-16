@@ -38,7 +38,9 @@ class PostArticle extends Controller
     }
 
     public function DeletePost($id){
-      dd($id);
+      $infoDelete = InfoArticle::find($id);
+      $infoDelete->delete();
+       return redirect()->back()->with('status','Xóa thành công!');
     }
 
 }
