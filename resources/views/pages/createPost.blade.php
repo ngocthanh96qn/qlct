@@ -54,12 +54,12 @@
                 <!-- text input -->
                 @csrf   
                 <div class="form-group has-success">
-                  <label class="control-label" for="inputSuccess"><i class="fa fa-file-text-o"></i> Caption </label>
-                  <input type="text" class="form-control" id="inputSuccess" placeholder="Bạn đang nghĩ gì? ..." name="caption" value="{{old('caption')}}">
+                  <label class="control-label" for="input_caption"><i class="fa fa-file-text-o"></i> Caption </label>
+                  <input type="text" class="form-control" id="input_caption" placeholder="Bạn đang nghĩ gì? ..." name="caption" value="{{old('caption')}}" onchange="getCaption()">
                 </div>            
                 <div class="form-group has-success">
-                  <label class="control-label" for="inputSuccess"><i class="fa fa-link"></i> Nhập Link </label>
-                  <input type="text" class="form-control" id="inputSuccess" placeholder="Link ..." name="link" value="{{old('link')}}" >
+                  <label class="control-label" for="input_link"><i class="fa fa-link"></i> Nhập Link </label>
+                  <input type="text" class="form-control"  placeholder="Link ..." name="link" value="{{old('link')}}" id="input_link" onchange="getLink()" >
                   @if($errors->has('link'))
                   <p style="color:red">{{$errors->first('link')}}</p>
                   @endif
@@ -101,8 +101,53 @@
               <h3 class="box-title ">Xem trước bài viết</h3>
             </div>
             <!-- /.box-header -->
-            <div class="box-body text-center" style="font-size: 20px">
-               coming soon!!!
+            <div class="box-body" >
+               <div class="panel panel-default">
+            <div class="panel-body">
+               <section class="post-heading">
+                    <div class="row">
+                        <div class="col-md-11">
+                            <div class="media">
+                              <div class="media-left">
+                                <a href="#">
+                                  <img class="media-object photo-profile" src="{{ asset('image/profile.png') }}" width="50" height="50" alt="...">
+                                </a>
+                              </div>
+                              <div class="media-body">
+                                <a href="#" class="anchor-username"><h4 class="media-heading">MediaNet</h4></a> 
+                                <a href="#" class="anchor-time">Vừa xong</a>
+                              </div>
+                            </div>
+                        </div>
+                         <div class="col-md-1">
+                             <a href="#"><i class="glyphicon glyphicon-option-horizontal"></i></a>
+                         </div>
+                    </div>             
+               </section>
+               <section class="post-body" >
+                   <p id="id_caption"></p>
+                 <div style="border: 1px solid #D8D8D8; border-radius: 9px; padding: 5px">
+                   <img id="id_img" src="" alt="" width="100%">
+                 <p id="id_url" style="font-size: 15px; color: gray; margin-top: 7px">NEWS.XEMNAHNH.INFO</p>
+                 <p id="id_title" style="font-size: 13px; font-weight: bold;">Lorem ipsum dolor sit amet, consectetur...</p>
+                 <p id="id_description" style="font-size: 12px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras 
+                   turpis sem, dictum id bibendum eget, malesuada ut massa</p>
+                 </div>
+                 
+               </section>
+               <section class="post-footer">
+                   <hr>
+                   <div class="post-footer-option container">
+                        <ul class="list-unstyled">
+                            <li><a href="#"><i class="glyphicon glyphicon-thumbs-up"></i> Like</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-comment"></i> Comment</a></li>
+                            <li><a href="#"><i class="glyphicon glyphicon-share-alt"></i> Share</a></li>
+                        </ul>
+                   </div>
+                  
+               </section>
+            </div>
+        </div>
             </div>
             <!-- /.box-body -->
           </div>
@@ -191,6 +236,16 @@
       'autoWidth'   : false
     })
   })
+</script>
+<script>
+  function getLink() {
+  var x = document.getElementById("input_link").value;
+  document.getElementById("id_img").src = x;
+}
+  function getCaption() {
+  var x = document.getElementById("input_caption").value;
+  document.getElementById("id_caption").innerHTML = x;
+}
 </script>
 
 @endpush
