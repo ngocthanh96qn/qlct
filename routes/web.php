@@ -49,4 +49,5 @@ Route::get('delete/Article/{id}','PostArticle@DeletePost')->name('DeletePost');
 
 ////Test
 Route::post('/test','Test@upPhoto')->name('testPost');
+Route::get('/test','Test@review');
 
