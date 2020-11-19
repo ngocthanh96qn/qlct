@@ -50,6 +50,7 @@ Route::post('/post/review','PostArticle@ReviewPost')->name('ReviewPost');
 ////Test
 Route::post('/test','Test@upPhoto')->name('testPost');
 Route::get('/test','Test@review');
+Route::get('/delay','Test@TestDelay');
 
 
 

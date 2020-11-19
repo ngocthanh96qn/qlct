@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.7.14/css/bootstrap-datetimepicker.min.css">
 
     {{-- css --}}
-     <link rel="stylesheet" href={{ asset("css/style.css") }}>
+     <link rel="stylesheet" href={{ asset("css/style_cus.css") }}>
     @yield('css')
 </head>
 

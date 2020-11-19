@@ -75,4 +75,19 @@ $html = file_get_html($request->url);
     'image' => $image,
 ]);
     }
+
+
+    public function TestDelay(){
+     ob_implicit_flush(true);
+for($i=0;$i<5;$i++)
+{
+$dis=<<<DIS
+<div style="width:200px; background-color:lime;border:1px; text-align:center;text-decoration:blink;">
+$i
+</div>
+DIS;
+echo $dis;
+
+sleep(5);
+//flush();
 }
