@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
+include_once './simple_html_dom.php';
 class Test extends Controller
 {
     public function uploadVideo(){
@@ -44,15 +45,34 @@ class Test extends Controller
     }
     public function review(){
     
+            $html = file_get_html('http://www.google.com/');
 
-      $html = file_get_html('http://www.google.com/');
+      // Find all images
+      foreach($html->find('img') as $element)
+             echo $element->src . '<br>';
 
-// Find all images
-foreach($html->find('img') as $element)
-       echo $element->src . '<br>';
+      // Find all links
+      foreach($html->find('a') as $element)
+             echo $element->href . '<br>';
+    }
 
-// Find all links
-foreach($html->find('a') as $element)
-       echo $element->href . '<br>';
+    public function TestApi(Request $request){
+$html = file_get_html($request->url);
+      foreach($html->find('meta') as $element){
+    if($element->property=='og:title'){
+      $title = $element->content;
+    }
+  if($element->property=='og:description'){
+      $description = $element->content;
+    }
+    if($element->property=='og:image'){
+      $image = $element->content;
+    }
+   }
+      return response()->json([
+    'title' => $title,
+    'description' => $description,
+    'image' => $image,
+]);
     }
 }

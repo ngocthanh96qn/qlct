@@ -43,11 +43,13 @@ Route::post('setup/page', 'ConfigSystemController@storePage')->name('set_page');
 
 Route::post('post/Article','PostArticle@PostToPage')->name('PostToPage');	
 Route::get('delete/Article/{id}','PostArticle@DeletePost')->name('DeletePost');	
-
+Route::post('/post/review','PostArticle@ReviewPost')->name('ReviewPost');
 
 
 
 ////Test
 Route::post('/test','Test@upPhoto')->name('testPost');
 Route::get('/test','Test@review');
+
+
 

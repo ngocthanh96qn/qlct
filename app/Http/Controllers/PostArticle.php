@@ -9,6 +9,7 @@ use App\ConfigSystem;
 use App\InfoArticle;
 use App\Page;
 use Auth;
+include_once './simple_html_dom.php';
 class PostArticle extends Controller
 {
     public function createPost(){
@@ -60,5 +61,34 @@ class PostArticle extends Controller
      }
 
    }
+        public function GetBetween($content,$start,$end){
+            $r = explode($start, $content);
+            if (isset($r[1])){
+                $r = explode($end, $r[1]);
+                return $r[0];
+            }
+            return 'false' ;
+        }
 
+       public function ReviewPost(Request $request){
+        $html = file_get_html($request->url);
+        $url = $this->GetBetween($request->url,'//','/');
+            foreach($html->find('meta') as $element){
+          if($element->property=='og:title'){
+            $title = $element->content;
+          }
+          if($element->property=='og:description'){
+              $description = $element->content;
+            }
+          if($element->property=='og:image'){
+            $image = $element->content;
+          }
+         }
+            return response()->json([
+          'title' => $title,
+          'description' => $description,
+          'image' => $image,
+          'url' => $url,
+      ]);
+    }
 }

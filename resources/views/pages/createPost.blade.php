@@ -55,7 +55,7 @@
                 @csrf   
                 <div class="form-group has-success">
                   <label class="control-label" for="input_caption"><i class="fa fa-file-text-o"></i> Caption </label>
-                  <input type="text" class="form-control" id="input_caption" placeholder="Bạn đang nghĩ gì? ..." name="caption" value="{{old('caption')}}" onchange="getCaption()">
+                  <input type="text" class="form-control" id="input_caption" placeholder="Bạn đang nghĩ gì? ..." name="caption" value="{{old('caption')}}" onkeyup="getCaption()">
                 </div>            
                 <div class="form-group has-success">
                   <label class="control-label" for="input_link"><i class="fa fa-link"></i> Nhập Link </label>
@@ -64,7 +64,7 @@
                   <p style="color:red">{{$errors->first('link')}}</p>
                   @endif
                 </div>
-
+                {{ csrf_field() }}
                 <div class="box-footer text-center form-group has-warning">
                   <label class="control-label"><i class="fa fa-bolt"></i> Chọn Trang </label>
 
@@ -125,13 +125,12 @@
                     </div>             
                </section>
                <section class="post-body" >
-                   <p id="id_caption"></p>
+                   <p id="id_caption" style=" word-wrap: break-word;"></p>
                  <div style="border: 1px solid #D8D8D8; border-radius: 9px; padding: 5px">
                    <img id="id_img" src="" alt="" width="100%">
-                 <p id="id_url" style="font-size: 15px; color: gray; margin-top: 7px">NEWS.XEMNAHNH.INFO</p>
-                 <p id="id_title" style="font-size: 13px; font-weight: bold;">Lorem ipsum dolor sit amet, consectetur...</p>
-                 <p id="id_description" style="font-size: 12px">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras 
-                   turpis sem, dictum id bibendum eget, malesuada ut massa</p>
+                 <p id="id_url" style="font-size: 15px; color: gray; margin-top: 7px"></p>
+                 <p id="id_title" style="font-size: 13px; font-weight: bold;"></p>
+                 <p id="id_description" style="font-size: 12px"></p>
                  </div>
                  
                </section>
@@ -239,12 +238,33 @@
 </script>
 <script>
   function getLink() {
-  var x = document.getElementById("input_link").value;
-  document.getElementById("id_img").src = x;
+  var link = document.getElementById("input_link").value;
+  if(link != '')
+          {
+            var _token = $('input[name="_token"]').val();
+            $.ajax({
+              url:"{{ route('ReviewPost')}}",
+              method:"POST",
+              data:{url:link, _token:_token},
+              success:function(data){
+                document.getElementById("id_title").innerHTML = data.title;
+                document.getElementById("id_description").innerHTML = data.description;
+                document.getElementById("id_img").src = data.image;
+                document.getElementById("id_url").innerHTML = data.url.toUpperCase();
+                console.log(data);
+              }
+            });
+          }
+          else {
+                document.getElementById("id_title").innerHTML = "";
+                document.getElementById("id_description").innerHTML = '';
+                document.getElementById("id_img").src = '';
+                document.getElementById("id_url").innerHTML = '';
+          }
 }
   function getCaption() {
-  var x = document.getElementById("input_caption").value;
-  document.getElementById("id_caption").innerHTML = x;
+  var caption = document.getElementById("input_caption").value;
+  document.getElementById("id_caption").innerHTML = caption;
 }
 </script>
 
