@@ -32,7 +32,10 @@ Route::group(['prefix' => 'menu','as'=>'menu.'],function (){  //các route về 
     Route::get('setup/ia', 'ConfigSystemController@getPageIa')->name('setup_ia');	
     Route::get('setup/page', 'ConfigSystemController@getPage')->name('setup_page');	
     //menu dăng bài
-    Route::get('post/Article', 'PostArticle@createPost')->name('postArticle');	
+    Route::get('post/Article', 'PostArticle@createPost')->name('postArticle');
+    //menu showlist
+    Route::get('show/page', 'Statisticle@showPage')->name('ShowPage');
+    	
 });
 //các route menu cấu hình 
 Route::post('setup/token', 'ConfigSystemController@storeToken')->name('set_token');	
@@ -43,14 +46,16 @@ Route::post('setup/page', 'ConfigSystemController@storePage')->name('set_page');
 
 Route::post('post/Article','PostArticle@PostToPage')->name('PostToPage');	
 Route::get('delete/Article/{id}','PostArticle@DeletePost')->name('DeletePost');	
-Route::post('/post/review','PostArticle@ReviewPost')->name('ReviewPost');
-
+Route::post('/post/review','PostArticle@ReviewPost')->name('ReviewPost'); //api
+// Route Thống kê
+Route::post('/statisticle/page','Statisticle@StatisticleGetPage')->name('StatisticleGetPage'); //api
+Route::post('/statisticle/view/page','Statisticle@viewPage')->name('ViewPage'); //post view page
 
 
 ////Test
 Route::post('/test','Test@upPhoto')->name('testPost');
-Route::get('/test','Test@review');
-Route::get('/delay','Test@TestDelay');
+Route::get('/get','Test@getPage');
+
 
 
 

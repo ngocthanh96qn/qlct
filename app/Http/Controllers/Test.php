@@ -43,51 +43,19 @@ class Test extends Controller
         ]);
           dd($response->json());
     }
-    public function review(){
     
-            $html = file_get_html('http://www.google.com/');
+    public function getPage(){
+      $access_token = 'EAAKGZAc6bPdUBAMbanQGcPDWRV6mvEQ5RhxeoXqtglItvDHBkXbzIMkhr9kULpKT8frGcPACEQbZANCvCNHQeqdskO3yLNemZAzsZCv42ZBRXTVMIBCrC52HsOljV8LvXr7athFzmLS1kzRLTKGCU88PbhzPDYLV4tN888lRuxQZDZD';
+      $id_page = '318385568768613'; //ccc
+      $response = Http::get('https://graph.facebook.com/'.$id_page.'?fields=access_token&access_token='.$access_token);
+         $token_page = $response->json()['access_token'];
 
-      // Find all images
-      foreach($html->find('img') as $element)
-             echo $element->src . '<br>';
-
-      // Find all links
-      foreach($html->find('a') as $element)
-             echo $element->href . '<br>';
+      $response = Http::get('https://graph.facebook.com/'.$id_page.'/posts?fields=status_type,permalink_url,attachments,message,full_picture&access_token='.$token_page); //lấy bài viết
+      // $response = Http::get('https://graph.facebook.com/318385568768613_452551955351973?fields=likes.summary(true)&access_token='.$token_page); 
+      // $response = Http::get('https://graph.facebook.com/v8.0/318385568768613_447911692482666/reactions?access_token='.$access_token); 
+    
+        
+         dd($response->json());
     }
 
-    public function TestApi(Request $request){
-$html = file_get_html($request->url);
-      foreach($html->find('meta') as $element){
-    if($element->property=='og:title'){
-      $title = $element->content;
-    }
-  if($element->property=='og:description'){
-      $description = $element->content;
-    }
-    if($element->property=='og:image'){
-      $image = $element->content;
-    }
-   }
-      return response()->json([
-    'title' => $title,
-    'description' => $description,
-    'image' => $image,
-]);
-    }
-
-
-    public function TestDelay(){
-     ob_implicit_flush(true);
-for($i=0;$i<5;$i++)
-{
-$dis=<<<DIS
-<div style="width:200px; background-color:lime;border:1px; text-align:center;text-decoration:blink;">
-$i
-</div>
-DIS;
-echo $dis;
-
-sleep(5);
-//flush();
 }

@@ -36,7 +36,7 @@
       </a>
       <ul class="treeview-menu">
       <li><a href="#"><i class="fa fa-circle-o"></i> Tổng quan </a></li>
-        <li><a href="#"><i class="fa fa-circle-o"></i> Chi tiết từng Page </a></li>
+        <li><a href="{{ route('menu.ShowPage') }}"><i class="fa fa-circle-o"></i> Chi tiết từng Page </a></li>
       </ul>
     </li>
 
