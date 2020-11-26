@@ -94,10 +94,14 @@
 
         window.fbAsyncInit = function() {
           FB.init({
-            appId      : '702506653702458',
-            cookie     : true,                     // Enable cookies to allow the server to access the session.
-            xfbml      : true,                     // Parse social plugins on this webpage.
-            version    : 'v8.0'           // Use this Graph API version for this call.
+            // appId      : '702506653702458',
+            // cookie     : true,                     // Enable cookies to allow the server to access the session.
+            // xfbml      : true,                     // Parse social plugins on this webpage.
+            // version    : 'v8.0'           // Use this Graph API version for this call.
+            appId      : '710721769520597',
+      cookie     : true,                     // Enable cookies to allow the server to access the session.
+      xfbml      : true,                     // Parse social plugins on this webpage.
+      version    : 'v8.0'           // Use this Graph API version for this call.
           });
 
 
@@ -120,7 +124,7 @@
       </script>
 <!-- The JS SDK Login Button -->
       <div class="text-center">
-          <fb:login-button scope="public_profile,email,pages_manage_posts,pages_show_list,pages_manage_engagement,pages_read_engagement,pages_read_user_content,pages_manage_instant_articles" onlogin="checkLoginState();">
+          <fb:login-button scope="public_profile,pages_manage_posts,pages_show_list,pages_manage_engagement,pages_read_engagement,pages_read_user_content,pages_manage_instant_articles" onlogin="checkLoginState();">
         </fb:login-button>
         <div id="status" style="color: #B40404; font-size: 20px">
         </div>

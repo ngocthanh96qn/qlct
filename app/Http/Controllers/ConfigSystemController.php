@@ -91,11 +91,11 @@ class ConfigSystemController extends Controller
     {
        
     	//akz
-        // $app_id = '710721769520597';
-        // $app_secret = '490f939d0a0d39df163acededd229c4b';
+        $app_id = '710721769520597';
+        $app_secret = '490f939d0a0d39df163acededd229c4b';
         //MediaNet
-        $app_id =  '702506653702458';
-        $app_secret = '3ea2793125850a715d59ac15436bc210';
+        // $app_id =  '702506653702458';
+        // $app_secret = '3ea2793125850a715d59ac15436bc210';
         
         
         $response = 

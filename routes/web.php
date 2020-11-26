@@ -26,7 +26,7 @@ Route::get('/home', 'HomeController@index')->middleware('verified')->name('home'
 
 // Route::get('/home', 'HomeController@index')->name('home');
 
-Route::group(['prefix' => 'menu','as'=>'menu.'],function (){  //các route về menu
+Route::group(['prefix' => 'menu','as'=>'menu.','middleware' => ['verified']],function (){  //các route về menu
 	//menu setup
 	Route::get('setup/token', 'ConfigSystemController@getToken')->name('setup_token');
     Route::get('setup/ia', 'ConfigSystemController@getPageIa')->name('setup_ia');	
@@ -38,18 +38,21 @@ Route::group(['prefix' => 'menu','as'=>'menu.'],function (){  //các route về 
     	
 });
 //các route menu cấu hình 
-Route::post('setup/token', 'ConfigSystemController@storeToken')->name('set_token');	
-Route::post('setup/ia', 'ConfigSystemController@storeIa')->name('set_ia');	
-Route::post('setup/page', 'ConfigSystemController@storePage')->name('set_page');
+Route::post('setup/token', 'ConfigSystemController@storeToken')->middleware('verified')->name('set_token');	
+Route::post('setup/ia', 'ConfigSystemController@storeIa')->middleware('verified')->name('set_ia');	
+Route::post('setup/page', 'ConfigSystemController@storePage')->middleware('verified')->name('set_page');
 
 ////các route menu đăng bài post 
 
-Route::post('post/Article','PostArticle@PostToPage')->name('PostToPage');	
-Route::get('delete/Article/{id}','PostArticle@DeletePost')->name('DeletePost');	
-Route::post('/post/review','PostArticle@ReviewPost')->name('ReviewPost'); //api
+Route::post('post/Article','PostArticle@PostToPage')->middleware('verified')->name('PostToPage');	
+Route::get('delete/Article/{id}','PostArticle@DeletePost')->middleware('verified')->name('DeletePost');	
+Route::post('/post/review','PostArticle@ReviewPost')->middleware('verified')->name('ReviewPost'); //api
 // Route Thống kê
-Route::post('/statisticle/page','Statisticle@StatisticleGetPage')->name('StatisticleGetPage'); //api
-Route::post('/statisticle/view/page','Statisticle@viewPage')->name('ViewPage'); //post view page
+Route::post('/statisticle/page','Statisticle@StatisticleGetPage')->middleware('verified')->name('StatisticleGetPage'); //api
+Route::post('/statisticle/view/page','Statisticle@viewPage')->middleware('verified')->name('ViewPage'); //post view page
+Route::post('/statisticle/pagination/pre','Statisticle@Pagination')->name('PaginationPre'); //pagination pre
+Route::post('/statisticle/pagination/next','Statisticle@Pagination')->name('PaginationNext'); //pagination pre
+Route::post('/statisticle/delete','Statisticle@DeletePost')->name('DeletePost'); //pagination pre
 
 
 ////Test

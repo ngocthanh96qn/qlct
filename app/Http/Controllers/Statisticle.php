@@ -21,7 +21,15 @@ class Statisticle extends Controller
           
       ]);
     }
-       public function GetBetween($content,$start,$end){
+    public function Pagination(Request $request){
+    	$link =$request->link;
+    	$token_page = $request->token;
+    	$response = Http::get($request->link);
+    	$listPost = $response->json();
+		$data = $this->FilterData($listPost,$token_page);
+	return redirect()->route('menu.ShowPage')->with('data',$data);
+    }
+    public function GetBetween($content,$start,$end){
             $r = explode($start, $content);
             if (isset($r[1])){
                 $r = explode($end, $r[1]);
@@ -29,13 +37,8 @@ class Statisticle extends Controller
             }
             return 'false' ;
         }
-    public function viewPage(ViewPageRequest $request){
-    	$id_page = $this->GetBetween($request->page,'/','//');
-    	$token_page = $this->GetBetween($request->page,'//','/');
-    	$response = Http::get('https://graph.facebook.com/'.$id_page.'/posts?fields=created_time,updated_time,status_type,permalink_url,attachments,message,full_picture&access_token='.$token_page); //lấy bài viết
-    	$listPost = $response->json();
-    	// dd($listPost);
-    	foreach ($listPost['data'] as $key => $post) {
+     public function FilterData($listPost,$token_page){
+     	    	foreach ($listPost['data'] as $key => $post) {
     		if (!isset($post['message'])) {
     			$post['message']='';
     		}
@@ -48,8 +51,10 @@ class Statisticle extends Controller
     				'caption'=>$post['message'],
     				'link'=>$post['permalink_url'],
     				'img'=>asset('image/video.jpg'),
-    				'time'=>$post['updated_time'],
+    				'time'=>$post['created_time'],
     				'ia' => '',
+    				'id'=>$post['id'],
+    				'stt'=>$key+1
     			];	
     		}
     		if ($post['status_type']=='shared_story') {
@@ -59,8 +64,10 @@ class Statisticle extends Controller
     				'caption'=>$post['message'],
     				'link'=>$post['permalink_url'],
     				'img'=>asset('image/link.jpg'),
-    				'time'=>$post['updated_time'],
+    				'time'=>$post['created_time'],
     				'ia' => asset('image/ia.png'),
+    				'id'=>$post['id'],
+    				'stt'=>$key+1
     			];	
     			}
     			else {
@@ -69,8 +76,10 @@ class Statisticle extends Controller
     				'caption'=>$post['message'],
     				'link'=>$post['permalink_url'],
     				'img'=>asset('image/link.jpg'),
-    				'time'=>$post['updated_time'],
+    				'time'=>$post['created_time'],
+    				'id'=>$post['id'],
     				'ia' => '',
+    				'stt'=>$key+1
     			];	
     			}	
     		}
@@ -81,8 +90,10 @@ class Statisticle extends Controller
     				'caption'=>$post['message'],
     				'link'=>$post['permalink_url'],
     				'img'=>$post['full_picture'],
-    				'time'=> $post['updated_time'],
+    				'time'=> $post['created_time'],
+    				'id'=>$post['id'],
     				'ia' => '',
+    				'stt'=>$key+1
     			];	
 
     		}
@@ -90,7 +101,28 @@ class Statisticle extends Controller
     	}
     	$data[] = $listInfo;
     	$data[] = $listPost['paging'];
-    	
+    	$data[] = $token_page;
+    	return $data;
+     }
+    public function viewPage(ViewPageRequest $request){
+    	$id_page = $this->GetBetween($request->page,'/','//');
+    	$token_page = $this->GetBetween($request->page,'//','/');
+    	$response = Http::get('https://graph.facebook.com/'.$id_page.'/posts?fields=created_time,status_type,permalink_url,attachments,message,full_picture&limit=100&access_token='.$token_page); //lấy bài viết
+    	$listPost = $response->json();
+    	$data = $this->FilterData($listPost,$token_page);
 	return redirect()->route('menu.ShowPage')->with('data',$data);
+    }
+
+    public function DeletePost(Request $request){
+    
+    	$response = Http::delete('https://graph.facebook.com/'.$request->id.'?access_token='.$request->token_page);
+    
+
+      if(isset($response->json()['success'])){
+        return response()->json(['status' => 'success',]);  
+      }
+      else {
+      return response()->json(['status' => 'failed',]); 
+     }
     }
 }

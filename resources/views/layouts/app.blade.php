@@ -95,7 +95,7 @@
         <!-- Left side column. contains the logo and sidebar -->
         @include('layouts.sidebar')
         <!-- Content Wrapper. Contains page content -->
-        <div class="content-wrapper" style="background-image: url('{{ asset('image/cover.jpg') }}'); background-repeat: no-repeat; background-size: 100%;">
+        <div class="content-wrapper" style="background-image: url('{{ asset('image/cover.jpg') }}'); background-repeat: repeat-y; background-size: 100%;">
             @yield('content')
         </div>
 
@@ -143,7 +143,7 @@
 
     <div id="page-content-wrapper" >
         <div class="container-fluid" >
-            <div class="row">
+            <div class="row" >
                 <div class="col-lg-12">
                     @yield('content')
                 </div>

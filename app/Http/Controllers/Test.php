@@ -50,11 +50,18 @@ class Test extends Controller
       $response = Http::get('https://graph.facebook.com/'.$id_page.'?fields=access_token&access_token='.$access_token);
          $token_page = $response->json()['access_token'];
 
-      $response = Http::get('https://graph.facebook.com/'.$id_page.'/posts?fields=status_type,permalink_url,attachments,message,full_picture&access_token='.$token_page); //lấy bài viết
-      // $response = Http::get('https://graph.facebook.com/318385568768613_452551955351973?fields=likes.summary(true)&access_token='.$token_page); 
+      // $response = Http::get('https://graph.facebook.com/'.$id_page.'/posts?fields=status_type,permalink_url,attachments,message,full_picture&access_token='.$token_page); //lấy bài viết
+      $response = Http::get('https://graph.facebook.com/v8.0/318385568768613_452551955351973/reactions?summary=viewer_reaction&access_token='.$token_page); 
       // $response = Http::get('https://graph.facebook.com/v8.0/318385568768613_447911692482666/reactions?access_token='.$access_token); 
     
         
+         dd($response->json());
+    }
+
+     public function like(){
+     
+      $response = Http::get('https://graph.facebook.com/v8.0/318385568768613/likes');
+              
          dd($response->json());
     }
 
