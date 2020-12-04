@@ -35,7 +35,8 @@ Route::group(['prefix' => 'menu','as'=>'menu.','middleware' => ['verified']],fun
     Route::get('post/Article', 'PostArticle@createPost')->name('postArticle');
     //menu showlist
     Route::get('show/page', 'Statisticle@showPage')->name('ShowPage');
-    	
+    //menu thống kê
+    Route::get('statisticle', 'Statisticle@Statisticle')->name('Statisticle');   	
 });
 //các route menu cấu hình 
 Route::post('setup/token', 'ConfigSystemController@storeToken')->middleware('verified')->name('set_token');	
@@ -52,11 +53,11 @@ Route::post('/statisticle/page','Statisticle@StatisticleGetPage')->middleware('v
 Route::post('/statisticle/view/page','Statisticle@viewPage')->middleware('verified')->name('ViewPage'); //post view page
 Route::post('/statisticle/pagination/pre','Statisticle@Pagination')->name('PaginationPre'); //pagination pre
 Route::post('/statisticle/pagination/next','Statisticle@Pagination')->name('PaginationNext'); //pagination pre
-Route::post('/statisticle/delete','Statisticle@DeletePost')->name('DeletePost'); //pagination pre
+Route::post('/statisticle/delete','Statisticle@DeletePost')->name('DeletePostPage'); //pagination pre
 
 
 ////Test
-Route::post('/test','Test@upPhoto')->name('testPost');
+Route::get('/test','Test@getPage');
 Route::get('/get','Test@getPage');
 
 

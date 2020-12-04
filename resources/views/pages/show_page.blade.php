@@ -24,13 +24,6 @@
         <h4><i class="icon fa fa-check"></i> Kết Quả!</h4>
         Đã xóa thành công!  
       </div>
-
-     <div class="alert alert-danger alert-dismissible" style="display: none;" id="thatbai">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">X</button>
-      <h4><i class="icon fa fa-ban"></i> Thất Bại!</h4>
-      Lỗi bài viết xóa thất bại! 
-    </div>
-   
     
   </div>
 </div>
@@ -83,13 +76,15 @@
             </div>
             <!-- /.box-header -->
             <div class="box-body table-responsive">
-              <table id="myTable" class="table table-bordered table-striped">
+              <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
                   <th>STT</th>
                   <th>Kiểu bài đăng</th>
                   <th>Caption</th>
                   <th>Xem trước</th>
+                  <th>Like</th>
+                  <th>CMT</th>
                   <th>Link</th>
                   <th>Thời gian</th>
                   <th>Delete</th>
@@ -106,6 +101,8 @@
                           <td>{{$info['type']}}</td>
                           <td> <p style="width: 200px;overflow: hidden;white-space: nowrap; text-overflow: ellipsis;">{{$info['caption']}}</p></td>
                           <td><img src="{{$info['img']}}" alt="" style="width:50px"></td>
+                          <td>{{$info['reaction']}}</td>
+                          <td>{{$info['cmt']}}</td>
                           <td><a href="{{$info['link']}}" target="_blank"><i class="fa fa-external-link" aria-hidden="true"></i></a></td>
                           <td>{{$info['time']}}</td>
                           {{-- <td><a href="{{ route('DeletePost',['id'=>$info['id'],'token'=>session('data')[2]]) }}">Delete</a></td> --}}
@@ -225,13 +222,14 @@ function getPage() {
 }
 
 $(".deleteRecord").click(function(){
+
     var id = $(this).data("id");
     
     var token_page = $(this).data("token_page");
     var _token = $('input[name="_token"]').val();
     $.ajax(
     {
-        url: "{{ route('DeletePost') }}",
+        url: "{{ route('DeletePostPage') }}",
         type: 'POST',
         data: {
             "id": id,
@@ -241,8 +239,9 @@ $(".deleteRecord").click(function(){
         success: function (data){
             console.log(data);
             if (data.status=='success') {
-              $('#thanhcong').removeAttr("style");
               $('#'+id).remove();
+              $('#thanhcong').removeAttr("style");
+              setTimeout(function(){ $('#thanhcong').attr('style', 'display:none');},2000); 
             }
             
         }

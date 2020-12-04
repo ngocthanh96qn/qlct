@@ -124,7 +124,7 @@
       </script>
 <!-- The JS SDK Login Button -->
       <div class="text-center">
-          <fb:login-button scope="public_profile,pages_manage_posts,pages_show_list,pages_manage_engagement,pages_read_engagement,pages_read_user_content,pages_manage_instant_articles" onlogin="checkLoginState();">
+          <fb:login-button scope="public_profile,pages_manage_posts,pages_show_list,pages_manage_engagement,pages_read_engagement,pages_read_user_content,pages_manage_instant_articles,read_insights" onlogin="checkLoginState();">
         </fb:login-button>
         <div id="status" style="color: #B40404; font-size: 20px">
         </div>

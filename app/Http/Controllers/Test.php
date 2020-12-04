@@ -50,8 +50,8 @@ class Test extends Controller
       $response = Http::get('https://graph.facebook.com/'.$id_page.'?fields=access_token&access_token='.$access_token);
          $token_page = $response->json()['access_token'];
 
-      // $response = Http::get('https://graph.facebook.com/'.$id_page.'/posts?fields=status_type,permalink_url,attachments,message,full_picture&access_token='.$token_page); //lấy bài viết
-      $response = Http::get('https://graph.facebook.com/v8.0/318385568768613_452551955351973/reactions?summary=viewer_reaction&access_token='.$token_page); 
+      $response = Http::get('https://graph.facebook.com/'.$id_page.'/posts?fields=created_time,actions,status_type,permalink_url,attachments,message,full_picture&access_token='.$token_page); //lấy bài viết
+      // $response = Http::get('https://graph.facebook.com/v8.0/318385568768613_452551955351973/reactions?summary=viewer_reaction&access_token='.$token_page); 
       // $response = Http::get('https://graph.facebook.com/v8.0/318385568768613_447911692482666/reactions?access_token='.$access_token); 
     
         
@@ -61,6 +61,20 @@ class Test extends Controller
      public function like(){
      
       $response = Http::get('https://graph.facebook.com/v8.0/318385568768613/likes');
+              
+         dd($response->json());
+    }
+
+    public function Insights(){
+     $access_token = 'EAAKGZAc6bPdUBABMmupdUZBKmirMOjtYBtuwZBlUtobj5wX3w7W2rjn8ssgWP2XZC9VUjZAoaICBogfKALhqBgCY1oE9PU6brsdeAIPUW501Ab8l2WnvoFneyxsWDDeI6O5Lc4yuY3K04Sawx35kxZBMTLlcDLQZBLhxKOQsmQafgZDZD';
+      $id_page = '318385568768613'; //ccc
+      $response = Http::get('https://graph.facebook.com/'.$id_page.'?fields=access_token&access_token='.$access_token);
+         $token_page = $response->json()['access_token'];
+
+      // $response = Http::get('https://graph.facebook.com/v8.0/318385568768613_447911692482666/comments?summary=order,total_count&access_token='.$token_page); //tong cmt
+      // $response = Http::get('https://graph.facebook.com/v8.0/318385568768613_447911692482666/reactions?&summary=total_count,viewer_reaction&access_token='.$token_page); //tong reaction
+      // $response = Http::get('https://graph.facebook.com/v8.0/318385568768613_447911692482666/insights?&metric=post_engaged_users,post_reactions_by_type_total&access_token='.$token_page); //tong reaction
+      $response = Http::get('https://graph.facebook.com/v8.0/318385568768613/insights?date_preset=today&period=day&metric=page_posts_impressions_paid&access_token='.$token_page); //tong reaction
               
          dd($response->json());
     }
